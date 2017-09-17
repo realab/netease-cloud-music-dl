@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from mutagen.mp3 import MP3, HeaderNotFoundError
-from mutagen.id3 import ID3, APIC, TPE1, TIT2, TALB, error
+from mutagen.id3 import ID3, APIC, TPE1, TIT2, TALB, TRCK, error
 from PIL import Image
 
 
@@ -69,6 +69,13 @@ def add_metadata_to_song(file_path, cover_path, song):
         TALB(
             encoding=3,
             text=song['album']['name']
+        )
+    )
+    # add song track number
+    id3.add(
+        TRCK(
+            encoding=3,
+            text='{}/{}'.format(song['no'], song['album']['size'])
         )
     )
     id3.save(v2_version=3)
